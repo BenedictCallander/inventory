@@ -2,8 +2,15 @@ from customtkinter import *
 from tkinter import * 
 from tkinter import ttk
 import pandas as pd 
-
+import prices_new
 import datetime 
+
+'''
+colours
+background: bedrock dark gray "#2E2E2E"
+hover: bedrock green "#72c05b"
+foreground/accent: bedrock orange "#f37367"
+'''
 
 '''
 other imports
@@ -11,32 +18,63 @@ other imports
 from adjustments import adjustwin
 from backup import create_backup
 from components import subwindow
+from newimport import import_window
 def main(): 
-    win = Tk()
-    win.geometry("1280x720")
+    win = CTk()
+    win.geometry("960x540")
+    win.configure(fg_color="#2E2E2E")
     win.title("Bedrock Inventory System 1.1")
+    titleframe = CTkFrame(win)
+    titleframe.configure(fg_color="#2E2E2E")
+    titleframe.grid(row=0, column=0)
     icon = PhotoImage(file="requisites/icon.png")
     win.iconphoto(False,icon)
-    win.configure(bg="#2E2E2E")
     titleimg = PhotoImage(file="requisites/bedrock.png")
-    logotitle = Label(win, image = titleimg,bg = "#2E2E2E")
+    logotitle = Label(titleframe, image = titleimg,bg = "#2E2E2E")
     logotitle.grid(row=0, column= 0)
-    titletext = Label(win, text= "Bedrock Computers", font="Arial, 20", bg="#2E2E2E", fg="#de6210")
-    titletext2 = Label(win, text= "Inventory Management", font="Arial, 20", bg="#2E2E2E", fg="#de6210")
-    titletext.grid(row=1, column= 0, columnspan= 1)
-    titletext2.grid(row=2, column= 0, columnspan= 1)
-    button_bg = "#2E2E2E"
+    titletext = Label(titleframe, text= "Bedrock Computers Inventory Management", font="Arial, 20", bg="#2E2E2E", fg="#de6210")
+    titletext.grid(row=0, column= 1, columnspan= 1)
+    buttonframe= CTkFrame(win)
+    buttonframe.configure(fg_color="#2E2E2E")
+    buttonframe.grid(row=1, column=0, pady=50)
+    hvcol="#72c05b"
     button_fg = "#de6210"
-    button1 = Button(win, text="Add New Components",command=subwindow, bg=button_bg, fg=button_fg, height=5, width=20); button1.grid(row=4, column= 1)
-    button2 = Button(win, text="Adjust Stock Properties",command=adjustwin, bg=button_bg, fg=button_fg, height=5, width=20); button2.grid(row=4, column=2)
-    button3 = Button(win, text="Button3", bg=button_bg, fg=button_fg, height=5, width=20); button3.grid(row=4, column=3)
-    button4 = Button(win, text="Manual Backup",command=create_backup, bg=button_bg, fg=button_fg, height=5, width=20); button4.grid(row=4, column=4)
-    button5 = Button(win, text="Button5",bg=button_bg, fg=button_fg, height=5, width=20); button5.grid(row=5, column=1)
-    button6 = Button(win, text="Button6",bg=button_bg, fg=button_fg, height=5, width=20); button6.grid(row=5, column=2)
-    button7 = Button(win, text="Button7",bg=button_bg, fg=button_fg, height=5, width=20); button7.grid(row=5, column=3)
-    button8 = Button(win, text="Button8",bg=button_bg, fg=button_fg, height=5, width=20); button8.grid(row=5, column=4)
+    button1 = CTkButton(buttonframe, text="Add New Components", command=import_window,
+    fg_color=button_fg,border_color="#72c05b",hover_color="#72c05b", height=100, width=200,corner_radius= 30) 
+
+    button2 = CTkButton(buttonframe, text="Adjust Stock Price",command=prices_new.pricewindow,
+    fg_color=button_fg,border_color="#72c05b",hover_color="#72c05b", height=100, width=200,corner_radius= 30)
     
-   
+    button3 = CTkButton(buttonframe, text="Adjust",command=subwindow,
+    fg_color=button_fg,border_color="#72c05b",hover_color="#72c05b",height=100, width=200, corner_radius= 30)
+    
+    button4 = CTkButton(buttonframe, text="Alter Product Price",command=prices_new.pricewindow,
+    fg_color=button_fg,border_color="#72c05b",hover_color="#72c05b", height=100, width=200, corner_radius= 30)
+    
+    
+    
+    button5 = CTkButton(buttonframe, text="Button5",
+    fg_color=button_fg,border_color="#72c05b",hover_color="#72c05b", height=100, width=200, corner_radius= 30)
+
+    button6 = CTkButton(buttonframe, text="Button6",
+    fg_color=button_fg,border_color="#72c05b",hover_color="#72c05b", height=100, width=200, corner_radius= 30) 
+
+    button7 = CTkButton(buttonframe, text="Button7",
+    fg_color=button_fg,border_color="#72c05b",hover_color="#72c05b", height=100, width=200, corner_radius= 30) 
+        
+    button8 = CTkButton(buttonframe, text="Button8",
+    fg_color=button_fg,border_color="#72c05b",hover_color="#72c05b", height=100, width=200, corner_radius= 30) 
+    
+    button1.grid(row=4, column= 0,padx=15, pady=15)
+    button2.grid(row=4, column=1,padx=15, pady=15)
+    button3.grid(row=4, column=2,padx=15, pady=15)
+    button4.grid(row=4, column=3,padx=15, pady=15)
+    button5.grid(row=5, column=0,padx=15, pady=15)
+    button6.grid(row=5, column=1,padx=15, pady=15)
+    button7.grid(row=5, column=2,padx=15, pady=15)
+    button8.grid(row=5, column=3,padx=15, pady=15)
+
+
     win.mainloop()
 
 main()

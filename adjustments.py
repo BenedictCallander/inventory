@@ -18,7 +18,7 @@ def adjustwin():
     win= Toplevel()
     #win.config(bg="#2E2E2E")
     win.title("Bedrock Inventory System 1.1|         Stock Adjustments")
-    icon = PhotoImage(file="icon.png")
+    icon = PhotoImage(file="requisites/icon.png")
     win.iconphoto(False,icon)
     
     conn = sqlite3.connect("stock.db")
