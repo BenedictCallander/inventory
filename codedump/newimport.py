@@ -2,7 +2,7 @@ from tkinter import *
 from customtkinter import * 
 import pandas as pd 
 import numpy as np
-import components 
+import components as components 
 import BCUTILS
 from tkinter import messagebox
 import sqlite3
@@ -19,15 +19,15 @@ def import_window():
     dir="temp_png/"
     BCUTILS.cleardir(dir)
 
-    label_title=CTkLabel(subwin, text="Add Stock", font=("Arial", 20), text_color="#f37367")
+    label_title=CTkLabel(subwin, text="Add Stock", font=("Berlin", 20), text_color="#f37367")
     label_title.grid(row=0,column=0, columnspan= 4,padx=20,pady=20)
-    label_type = CTkLabel(subwin, text="Product Type:", font=("Arial", 20), text_color="#f37367")
+    label_type = CTkLabel(subwin, text="Product Type:", font=("Berlin", 20), text_color="#f37367")
     label_type.grid(row=1, column= 1,padx=20,pady=20)
-    label_brand= CTkLabel(subwin, text="Brand", font=("Arial", 20), text_color="#f37367")
+    label_brand= CTkLabel(subwin, text="Brand", font=("Berlin", 20), text_color="#f37367")
     label_brand.grid(row=2, column= 1,padx=20,pady=20)
-    label_name = CTkLabel(subwin, text="Product Name:", font=("Arial", 20), text_color="#f37367")
+    label_name = CTkLabel(subwin, text="Product Name:", font=("Berlin", 20), text_color="#f37367")
     label_name.grid(row=3, column= 1,padx=20,pady=20)
-    label_location= CTkLabel(subwin, text="Location", font=("Arial", 20), text_color="#f37367")
+    label_location= CTkLabel(subwin, text="Location", font=("Berlin", 20), text_color="#f37367")
     label_location.grid(row=4, column= 1,padx=20,pady=20)
 
 
@@ -42,8 +42,6 @@ def import_window():
     entry_location.grid(row=4, column=2,columnspan=3,padx=20,pady=20)
     
     def buttonpress():
-        conn=sqlite3.connect("stock.db")
-        c=conn.cursor()
         check= str(entry_type.get())
         if check == "CPU":
             addtask= components.cpu(entry_brand.get(), entry_name.get(), entry_location.get())
@@ -56,7 +54,7 @@ def import_window():
         elif check == "GPU":
             addtask= components.gpu(entry_brand.get(), entry_name.get(), entry_location.get())
             addtask.add_gen()
-            conn=sqlite3.connect("stock.db")
+            conn=sqlite3.connect("requisites/stock.db")
             c=conn.cursor()
             c.execute("UPDATE gpu SET stock = stock + 1 WHERE name= ?",[addtask.name])
             conn.commit()

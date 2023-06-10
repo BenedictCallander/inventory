@@ -69,7 +69,7 @@ def pricewindow():
     entry_ram_cost.grid(row=3, column=1,padx=20, pady=20)
 
     def do_ram():
-        conn= sqlite3.connect("stock.db")
+        conn= sqlite3.connect("requisites/stock.db")
         c=conn.cursor()
         c.execute("UPDATE ram SET price= ? WHERE gen=? AND capacity=?",
         (entry_ram_cost.get(), entry_ram_generation.get(),entry_ram_capacity.get()))
@@ -106,7 +106,7 @@ def pricewindow():
     entry_PSU_power.grid(row=1, column=1,padx=20, pady=20)
     entry_PSU_cost.grid(row=2, column=1,padx=20, pady=20)
     def dopower():
-        conn=sqlite3.connect("stock.db")
+        conn=sqlite3.connect("requisites/stock.db")
         c= conn.cursor()
         c.execute("UPDATE psu SET price=? WHERE power=?", (entry_PSU_cost.get(), entry_PSU_power.get()))
         conn.commit()
@@ -141,7 +141,7 @@ def pricewindow():
     entry_GPU_cost.grid(row=3, column=1,padx=20, pady=20)
 
     def do_gpu():
-        conn=sqlite3.connect("stock.db")
+        conn=sqlite3.connect("requisites/stock.db")
         c=conn.cursor()
         c.execute("UPDATE gpu SET price=? WHERE brand=? AND name=? ",
         (entry_GPU_cost.get(),entry_GPU_brand.get(), entry_GPU_name.get())

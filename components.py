@@ -62,3 +62,18 @@ class cpu:
         dflist=[dfin,add]
         dfout=pd.concat(dflist, axis='rows', ignore_index=True)
         dfout.to_csv("requisites/cpu.csv", index=False)
+
+
+class psu:
+    def __init__(self,power, location):
+        self.power=power
+        self.location=location
+    def add_gen(self):
+        data=f'POWER{self.power}\nLocation{self.location}'
+        qr_code = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=10, border=4)
+        qr_code.add_data(data)
+        qr_code.make(fit=True)
+        image = qr_code.make_image(fill_color="black", back_color="white")
+        fname=f'psu_png/{self.power}W.png'
+        image.save(fname)
+    
