@@ -19,8 +19,10 @@ foreground/accent: bedrock orange "#f37367"
 class input_windows:
     def import_window():
         subwin=CTkToplevel()
+        subwin.title("BEDROCK: IMPORT NEW STOCK")
         subwin.geometry=("700x700")
         subwin.configure(fg_color="#2E2E2E")
+        subwin.wm_iconbitmap("requisites/icon.ico")
 
         title_text=CTkLabel(subwin, text="Import New Components", font=("Berlin",50), text_color="#f37367")
         title_text.grid(row=0,column=0, columnspan=2)

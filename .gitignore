@@ -1,2 +1,13 @@
 stock.db
 *.db
+*.dll
+*.pyc
+*.html
+*.pyd
+*.toc
+*.dat
+*.json
+*.css
+*.txt
+*.tex
+/compile
