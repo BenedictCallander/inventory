@@ -3,7 +3,7 @@ from tkinter import *
 from tkinter import ttk
 import pandas as pd 
 import datetime 
-from func_windows import in_windows, adjustment_windows, view_windows
+from func_windows import input_windows, adjustment_windows, view_windows
 from BCUTILS import backup
 '''
 colours
@@ -38,10 +38,10 @@ def main():
     button_fg = "#de6210"
 
 
-    button1 = CTkButton(buttonframe, text="Add New Components", command=in_windows.GPU_CPU_window,
+    button1 = CTkButton(buttonframe, text="Add New Components", command=input_windows.import_window,
     fg_color=button_fg,border_color="#72c05b",hover_color="#72c05b", height=100, width=200,corner_radius= 50) 
 
-    button2 = CTkButton(buttonframe, text="Import PSU",command=in_windows.psu_window,
+    button2 = CTkButton(buttonframe, text="Import PSU",
     fg_color=button_fg,border_color="#72c05b",hover_color="#72c05b", height=100, width=200, corner_radius= 50) 
 
     button3 = CTkButton(buttonframe, text="Adjust Stock Price",command=adjustment_windows.pricewindow,
