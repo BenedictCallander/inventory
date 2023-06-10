@@ -4,7 +4,7 @@ import qrcode
 import uuid
 
 '''
-dataframe convention: {"TYPE": , "BRAND": , "NAME": , "ID":, }
+dataframe convention: {"TYPE": , "BRAND": , "NAME": , "ID":, "Location":}
 '''
 
 class gpu:
@@ -30,7 +30,7 @@ class gpu:
         add to dataframe
         '''
         dfin=pd.read_csv("requisites/gpu.csv")
-        add=pd.DataFrame({"TYPE": str(self.type), "BRAND":str(self.brand) , "NAME": str(self.name), "ID": self.id},index=[0])
+        add=pd.DataFrame({"TYPE": str(self.type), "BRAND":str(self.brand) , "NAME": str(self.name), "ID": self.id, "Location": str(self.location)},index=[0])
         dflist=[dfin,add]
         dfout=pd.concat(dflist, axis='rows', ignore_index=True)
         dfout.to_csv("requisites/gpu.csv", index=False)
@@ -58,7 +58,7 @@ class cpu:
         add to document
         '''
         dfin=pd.read_csv("requisites/cpu.csv")
-        add=pd.DataFrame({"TYPE": str(self.type), "BRAND":str(self.brand) , "NAME": str(self.name), "ID": self.id},index=[0])
+        add=pd.DataFrame({"TYPE": str(self.type), "BRAND":str(self.brand) , "NAME": str(self.name), "ID": self.id,"Location": str(self.location)},index=[0])
         dflist=[dfin,add]
         dfout=pd.concat(dflist, axis='rows', ignore_index=True)
         dfout.to_csv("requisites/cpu.csv", index=False)

@@ -17,7 +17,7 @@ other imports
 from backup import create_backup
 from newimport import import_window
 from prices_new import pricewindow
-
+from view import views
 def main(): 
     win = CTk()
     win.geometry("960x540")
@@ -31,7 +31,7 @@ def main():
     titleimg = PhotoImage(file="requisites/bedrock.png")
     logotitle = Label(titleframe, image = titleimg,bg = "#2E2E2E")
     logotitle.grid(row=0, column= 0)
-    titletext = Label(titleframe, text= "Bedrock Computers Inventory Management", font="Arial, 20", bg="#2E2E2E", fg="#de6210")
+    titletext = Label(titleframe, text= "Bedrock Computers Inventory Management", font="Consolas, 20", bg="#2E2E2E", fg="#de6210")
     titletext.grid(row=0, column= 1, columnspan= 1)
     buttonframe= CTkFrame(win)
     buttonframe.configure(fg_color="#2E2E2E")
@@ -52,10 +52,10 @@ def main():
     
     
     
-    button5 = CTkButton(buttonframe, text="Button5",
+    button5 = CTkButton(buttonframe, text="View GPU's",command=views.gpu_view,
     fg_color=button_fg,border_color="#72c05b",hover_color="#72c05b", height=100, width=200, corner_radius= 30)
 
-    button6 = CTkButton(buttonframe, text="Button6",
+    button6 = CTkButton(buttonframe, text="View CPU's",command=views.cpu_view,
     fg_color=button_fg,border_color="#72c05b",hover_color="#72c05b", height=100, width=200, corner_radius= 30) 
 
     button7 = CTkButton(buttonframe, text="Button7",

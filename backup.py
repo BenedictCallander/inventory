@@ -41,5 +41,3 @@ def create_backup():
     # Close the connections to the databases
     conn_orig.close()
     conn_backup.close()
-
-create_backup()

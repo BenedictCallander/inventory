@@ -5,7 +5,7 @@ import numpy as np
 import components 
 import BCUTILS
 from tkinter import messagebox
-
+import sqlite3
 '''
 colours
 background: bedrock dark gray "#2E2E2E"
@@ -42,6 +42,8 @@ def import_window():
     entry_location.grid(row=4, column=2,columnspan=3,padx=20,pady=20)
     
     def buttonpress():
+        conn=sqlite3.connect("stock.db")
+        c=conn.cursor()
         check= str(entry_type.get())
         if check == "CPU":
             addtask= components.cpu(entry_brand.get(), entry_name.get(), entry_location.get())
@@ -54,6 +56,11 @@ def import_window():
         elif check == "GPU":
             addtask= components.gpu(entry_brand.get(), entry_name.get(), entry_location.get())
             addtask.add_gen()
+            conn=sqlite3.connect("stock.db")
+            c=conn.cursor()
+            c.execute("UPDATE gpu SET stock = stock + 1 WHERE name= ?",[addtask.name])
+            conn.commit()
+            conn.close()
             entry_type.delete(0,END)
             entry_brand.delete(0,END)
             entry_location.delete(0,END)
@@ -64,7 +71,7 @@ def import_window():
             entry_brand.delete(0,END)
             entry_location.delete(0,END)
             entry_name.delete(0,END)
-
+        
 
     def printbuttonpress():
         BCUTILS.getprintlist(dir,"requisites/printlist.txt")
