@@ -2,7 +2,7 @@ from tkinter import *
 from customtkinter import * 
 import pandas as pd 
 import numpy as np
-import graphics 
+import components 
 import BCUTILS
 from tkinter import messagebox
 
@@ -44,7 +44,7 @@ def import_window():
     def buttonpress():
         check= str(entry_type.get())
         if check == "CPU":
-            addtask= graphics.cpu(entry_brand.get(), entry_name.get(), entry_location.get())
+            addtask= components.cpu(entry_brand.get(), entry_name.get(), entry_location.get())
             addtask.add_gen()
             entry_type.delete(0,END)
             entry_brand.delete(0,END)
@@ -52,7 +52,7 @@ def import_window():
             entry_name.delete(0,END)
 
         elif check == "GPU":
-            addtask= graphics.gpu(entry_brand.get(), entry_name.get(), entry_location.get())
+            addtask= components.gpu(entry_brand.get(), entry_name.get(), entry_location.get())
             addtask.add_gen()
             entry_type.delete(0,END)
             entry_brand.delete(0,END)

@@ -14,11 +14,9 @@ foreground/accent: bedrock orange "#f37367"
 '''
 other imports
 '''
-from adjustments import adjustwin
 from backup import create_backup
-from components import subwindow
 from newimport import import_window
-import prices_new
+from prices_new import pricewindow
 
 def main(): 
     win = CTk()
@@ -43,13 +41,13 @@ def main():
     button1 = CTkButton(buttonframe, text="Add New Components", command=import_window,
     fg_color=button_fg,border_color="#72c05b",hover_color="#72c05b", height=100, width=200,corner_radius= 30) 
 
-    button2 = CTkButton(buttonframe, text="Adjust Stock Price",command=prices_new.pricewindow,
+    button2 = CTkButton(buttonframe, text="Adjust Stock Price",command=pricewindow,
     fg_color=button_fg,border_color="#72c05b",hover_color="#72c05b", height=100, width=200,corner_radius= 30)
     
-    button3 = CTkButton(buttonframe, text="Adjust",command=subwindow,
+    button3 = CTkButton(buttonframe, text="Backup Database",command=create_backup,
     fg_color=button_fg,border_color="#72c05b",hover_color="#72c05b",height=100, width=200, corner_radius= 30)
     
-    button4 = CTkButton(buttonframe, text="Alter Product Price",command=prices_new.pricewindow,
+    button4 = CTkButton(buttonframe, text="Alter Product Price",command=pricewindow,
     fg_color=button_fg,border_color="#72c05b",hover_color="#72c05b", height=100, width=200, corner_radius= 30)
     
     
