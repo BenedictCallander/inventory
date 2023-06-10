@@ -42,3 +42,4 @@ def create_backup():
     conn_orig.close()
     conn_backup.close()
 
+create_backup()

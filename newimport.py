@@ -52,7 +52,7 @@ def import_window():
             entry_name.delete(0,END)
 
         elif check == "GPU":
-            addtask= graphics.cpu(entry_brand.get(), entry_name.get(), entry_location.get())
+            addtask= graphics.gpu(entry_brand.get(), entry_name.get(), entry_location.get())
             addtask.add_gen()
             entry_type.delete(0,END)
             entry_brand.delete(0,END)

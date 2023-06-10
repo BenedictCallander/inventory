@@ -2,7 +2,6 @@ from customtkinter import *
 from tkinter import * 
 from tkinter import ttk
 import pandas as pd 
-import prices_new
 import datetime 
 
 '''
@@ -19,6 +18,8 @@ from adjustments import adjustwin
 from backup import create_backup
 from components import subwindow
 from newimport import import_window
+import prices_new
+
 def main(): 
     win = CTk()
     win.geometry("960x540")
