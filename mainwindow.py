@@ -9,6 +9,7 @@ import BCUTILS
 import used_system
 import accessories
 import getorders
+
 '''
 colours
 background: bedrock dark gray "#2E2E2E"
@@ -61,7 +62,7 @@ def main():
     button6 = CTkButton(buttonframe, text="Get Orders",command=getorders.get_orders,
     fg_color=button_fg,border_color="#72c05b",hover_color="#72c05b", height=100, width=200, corner_radius= 50) 
 
-    button7 = CTkButton(buttonframe, text="Button7",
+    button7 = CTkButton(buttonframe, text="View Accessories",command=accessories.acc_win.acc_view,
     fg_color=button_fg,border_color="#72c05b",hover_color="#72c05b",height=100, width=200, corner_radius= 50)
 
     button8 = CTkButton(buttonframe, text="Backup Database",command=backup.create_backup,

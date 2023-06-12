@@ -76,3 +76,35 @@ class acc_win:
         add_button.grid(row=5, column=0, columnspan=2,padx=20,pady=20)
         win.mainloop()
 
+    def acc_view():
+        subwin=CTkToplevel()
+        subwin.geometry("800x500")
+        subwin.configure(fg_color="#2E2E2E")
+
+        text_title=CTkLabel(subwin, text="Accessories", font=("Berlin",20), text_color="#f37367")
+        text_title.grid(row=0,column=0, padx=20,pady=20)
+        style = ttk.Style()
+        style.theme_use("default")
+        style.configure("Treeview",background="#2a2d2e",foreground="white",rowheight=25,fieldbackground="#343638",bordercolor="#343638",borderwidth=0)
+        style.map('Treeview', background=[('selected', '#22559b')])
+        style.configure("Treeview.Heading",background="#565b5e",foreground="white",relief="flat")
+        style.map("Treeview.Heading",background=[('active', '#3484F0')])
+
+
+        df=pd.read_csv("requisites/accessories.csv")
+        acc_list_type=list(df['Type'])
+        acc_list_brand=list(df['Brand'])
+        acc_list_cost=list(df['cost'])
+        acc_list_loc=list(df['Location'])
+
+        acc_headings=("Type","Brand", "cost", "location")
+        acc_tree=ttk.Treeview(subwin, columns=acc_headings, show='headings')
+        acc_tree.grid(row=1, column=0, padx=20,pady=20)
+        for heading in acc_headings:
+            acc_tree.heading(heading, text=heading)
+        for type,brand,cost,location in zip(acc_list_type, acc_list_brand, acc_list_cost, acc_list_loc):
+            acc_tree.insert('','end', values=(type,brand,cost,location))
+        
+
+        subwin.mainloop()
+

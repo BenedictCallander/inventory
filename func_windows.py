@@ -82,7 +82,6 @@ class input_windows:
                 entry_location.delete(0,END)
                 entry_name.delete(0,END)
             
-
         def printbuttonpress_CGPU():
             BCUTILS.getprintlist(cgpu_directory,"requisites/printlist.txt")
 
@@ -95,7 +94,6 @@ class input_windows:
         power_frame.configure(fg_color="#2E2E2E")
         power_frame.grid(row=1, column=1,padx=50, pady=20)
         title_label=CTkLabel(power_frame, text= "Power Supply import", font=("Berlin", 40),text_color="#f37367")
-
 
         label_power= CTkLabel(power_frame, text= "Power(W)", font=("Berlin", 20),text_color="#f37367")
         entry_power=CTkEntry(power_frame, width=150, height=28, corner_radius=15,placeholder_text="e.g. 500", placeholder_text_color= "#f37367")
@@ -166,7 +164,6 @@ class view_windows:
         #
         #GPU
         #
-        gpu_headings= ("Brand","Name","Location", "ID")
         gpu_title_label=CTkLabel(gpu_frame, text="GPU STOCK", font=("Berlin",20), text_color="#f37367")
         gpu_title_label.grid(row=0, column=0, padx=20, pady=20)
         #
@@ -195,7 +192,7 @@ class view_windows:
         #
         #CPU
         #
-        
+
         df_cpu= pd.read_csv("requisites/cpu.csv")
         cpu_list_brand= list(df_cpu['BRAND'])
         cpu_list_name=list(df_cpu['NAME'])
