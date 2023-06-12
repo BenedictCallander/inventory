@@ -7,6 +7,8 @@ from func_windows import input_windows, adjustment_windows, view_windows
 from BCUTILS import backup
 import BCUTILS
 import used_system
+import accessories
+import getorders
 '''
 colours
 background: bedrock dark gray "#2E2E2E"
@@ -27,6 +29,7 @@ def main():
     titleframe.configure(fg_color="#2E2E2E")
     titleframe.grid(row=0, column=0)
     win.iconbitmap('icon.ico')
+    BCUTILS.plot_psu()
     titleimg = PhotoImage(file="requisites/bedrock.png")
     logotitle = Label(titleframe, image = titleimg,bg = "#2E2E2E")
     logotitle.grid(row=0, column= 0)
@@ -46,19 +49,19 @@ def main():
     button2 = CTkButton(buttonframe, text="Import System", command=used_system.used_window.used_win,
     fg_color=button_fg,border_color="#72c05b",hover_color="#72c05b", height=100, width=200, corner_radius= 50) 
 
-    button3 = CTkButton(buttonframe, text="Adjust Stock Price",command=adjustment_windows.pricewindow,
-    fg_color=button_fg,border_color="#72c05b",hover_color="#72c05b", height=100, width=200,corner_radius= 50)
-
-    button4 = CTkButton(buttonframe, text="Button4",
+    button3 = CTkButton(buttonframe, text="Add Accesories",command=accessories.acc_win.accessorywindow,
     fg_color=button_fg,border_color="#72c05b",hover_color="#72c05b", height=100, width=200, corner_radius= 50)
 
-    button5 = CTkButton(buttonframe, text="View GPU's",command=view_windows.view_win,
+    button4 = CTkButton(buttonframe, text="Adjust Stock Price",command=adjustment_windows.pricewindow,
+    fg_color=button_fg,border_color="#72c05b",hover_color="#72c05b", height=100, width=200,corner_radius= 50)  
+
+    button5 = CTkButton(buttonframe, text="Stock Dashboard",command=view_windows.view_win,
     fg_color=button_fg,border_color="#72c05b",hover_color="#72c05b", height=100, width=200, corner_radius= 50)
 
-    button6 = CTkButton(buttonframe, text="View CPU's",
+    button6 = CTkButton(buttonframe, text="Get Orders",command=getorders.get_orders,
     fg_color=button_fg,border_color="#72c05b",hover_color="#72c05b", height=100, width=200, corner_radius= 50) 
 
-    button7 = CTkButton(buttonframe, text="View PSU's",
+    button7 = CTkButton(buttonframe, text="Button7",
     fg_color=button_fg,border_color="#72c05b",hover_color="#72c05b",height=100, width=200, corner_radius= 50)
 
     button8 = CTkButton(buttonframe, text="Backup Database",command=backup.create_backup,
@@ -72,7 +75,7 @@ def main():
     button6.grid(row=5, column=1,padx=15, pady=15)
     button7.grid(row=5, column=2,padx=15, pady=15)
     button8.grid(row=5, column=3,padx=15, pady=15)
-    BCUTILS.plot_psu()
+    
 
     win.mainloop()
     exit()

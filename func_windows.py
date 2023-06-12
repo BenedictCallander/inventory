@@ -31,7 +31,7 @@ class input_windows:
         gcpu_frame=CTkFrame(subwin,border_width=5, border_color="black")
         gcpu_frame.configure(fg_color="#2E2E2E")
         gcpu_frame.grid(row=1, column=0, padx=20,pady=20)
-        BCUTILS.cleardir(cgpu_directory)
+        #BCUTILS.cleardir(cgpu_directory)
         label_title=CTkLabel(gcpu_frame, text="Add Stock", font=("Berlin", 20), text_color="#f37367")
         label_title.grid(row=0,column=0, columnspan= 4,padx=20,pady=20)
         label_type = CTkLabel(gcpu_frame, text="Product Type:", font=("Berlin", 20), text_color="#f37367")

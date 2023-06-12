@@ -8,6 +8,8 @@ import BCUTILS
 from tkinter import messagebox
 import sqlite3
 import matplotlib.pyplot as plt
+import uuid
+'''
 
 class view_windows:
     def view_win():
@@ -260,3 +262,10 @@ class view_windows:
         img_label.grid(row=1,column=0,padx=20,pady=20)
         
         win.mainloop()
+
+    
+'''
+
+
+df=pd.DataFrame({"Type":"Fan", "Brand": "Corsair", "cost": "50", "Location": "bin", "ID": uuid.uuid4()},index=[0])
+df.to_csv("requisites/accessories.csv",index=False)
