@@ -24,6 +24,10 @@ class input_windows:
         subwin.title("BEDROCK: IMPORT NEW STOCK")
         subwin.geometry=("700x700")
         subwin.configure(fg_color="#2E2E2E")
+<<<<<<< HEAD
+=======
+
+>>>>>>> 14cae3cf935e63a20d792ace7d65ab71825c81c1
         title_text=CTkLabel(subwin, text="Import New Components", font=("Berlin",50), text_color="#f37367")
         title_text.grid(row=0,column=0,columnspan= 2,padx=20, pady=20)
         cgpu_directory="temp_png/"
@@ -93,18 +97,28 @@ class input_windows:
 
         power_frame=CTkFrame(subwin,border_width=5, border_color="black")
         power_frame.configure(fg_color="#2E2E2E")
+<<<<<<< HEAD
         power_frame.grid(row=1, column=1)
+=======
+        power_frame.grid(row=1, column=1,padx=50, pady=20)
+>>>>>>> 14cae3cf935e63a20d792ace7d65ab71825c81c1
         title_label=CTkLabel(power_frame, text= "Power Supply import", font=("Berlin", 40),text_color="#f37367")
 
 
         label_power= CTkLabel(power_frame, text= "Power(W)", font=("Berlin", 20),text_color="#f37367")
-        entry_power=CTkEntry(power_frame, width=200, height=28, corner_radius=15,placeholder_text="e.g. 500", placeholder_text_color= "#f37367")
+        entry_power=CTkEntry(power_frame, width=150, height=28, corner_radius=15,placeholder_text="e.g. 500", placeholder_text_color= "#f37367")
         label_newstock= CTkLabel(power_frame, text= "New Units", font=("Berlin", 20),text_color="#f37367")
         entry_newstock=CTkEntry(power_frame, width=200, height=28, corner_radius=15,placeholder_text="e.g. 1, 5", placeholder_text_color= "#f37367")
 
+<<<<<<< HEAD
         title_label.grid(row=0, column=1,padx=20,pady=20)
         label_power.grid(row=1, column=0,padx=20,pady=20)
         entry_power.grid(row=1, column=1,padx=10,pady=20)
+=======
+        title_label.grid(row=0, column=1)
+        label_power.grid(row=1, column=0)
+        entry_power.grid(row=1, column=1)
+>>>>>>> 14cae3cf935e63a20d792ace7d65ab71825c81c1
 
         label_newstock.grid(row=2, column=0,pady=20)
         entry_newstock.grid(row=2, column=1,pady=20)
