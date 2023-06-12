@@ -52,13 +52,13 @@ def main():
     button4 = CTkButton(buttonframe, text="Button4",
     fg_color=button_fg,border_color="#72c05b",hover_color="#72c05b", height=100, width=200, corner_radius= 50)
 
-    button5 = CTkButton(buttonframe, text="View GPU's",command=view_windows.gpu_view,
+    button5 = CTkButton(buttonframe, text="View GPU's",command=view_windows.view_win,
     fg_color=button_fg,border_color="#72c05b",hover_color="#72c05b", height=100, width=200, corner_radius= 50)
 
-    button6 = CTkButton(buttonframe, text="View CPU's",command=view_windows.cpu_view,
+    button6 = CTkButton(buttonframe, text="View CPU's",
     fg_color=button_fg,border_color="#72c05b",hover_color="#72c05b", height=100, width=200, corner_radius= 50) 
 
-    button7 = CTkButton(buttonframe, text="View PSU's",command=view_windows.psu_view,
+    button7 = CTkButton(buttonframe, text="View PSU's",
     fg_color=button_fg,border_color="#72c05b",hover_color="#72c05b",height=100, width=200, corner_radius= 50)
 
     button8 = CTkButton(buttonframe, text="Backup Database",command=backup.create_backup,
@@ -73,7 +73,7 @@ def main():
     button7.grid(row=5, column=2,padx=15, pady=15)
     button8.grid(row=5, column=3,padx=15, pady=15)
     BCUTILS.plot_psu()
-    
+
     win.mainloop()
     exit()
 
