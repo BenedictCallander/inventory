@@ -7,111 +7,131 @@ import components as components
 import BCUTILS
 from tkinter import messagebox
 import sqlite3
+import matplotlib.pyplot as plt
 
+class view_windows:
+    def view_win():
+        win=CTkToplevel()
+        win.title("BEDROCK: COMPONENT STOCK VIEW")
 
-class input_windows:
-    def import_window():
-        subwin=CTkToplevel()
-        subwin=CTkToplevel()
-        subwin.geometry=("700x700")
-        subwin.configure(fg_color="#2E2E2E")
-        cgpu_directory="temp_png/"
-        psu_directory="psu_png/"
-        gcpu_frame=CTkFrame(subwin)
-        gcpu_frame.configure(fg_color="#2E2E2E")
-        gcpu_frame.grid(row=1,column=0)
-        BCUTILS.cleardir(cgpu_directory)
-        label_title=CTkLabel(gcpu_frame, text="Add Stock", font=("Berlin", 20), text_color="#f37367")
-        label_title.grid(row=0,column=0, columnspan= 4,padx=20,pady=20)
-        label_type = CTkLabel(gcpu_frame, text="Product Type:", font=("Berlin", 20), text_color="#f37367")
-        label_type.grid(row=1, column= 1,padx=20,pady=20)
-        label_brand= CTkLabel(gcpu_frame, text="Brand", font=("Berlin", 20), text_color="#f37367")
-        label_brand.grid(row=2, column= 1,padx=20,pady=20)
-        label_name = CTkLabel(gcpu_frame, text="Product Name:", font=("Berlin", 20), text_color="#f37367")
-        label_name.grid(row=3, column= 1,padx=20,pady=20)
-        label_location= CTkLabel(gcpu_frame, text="Location", font=("Berlin", 20), text_color="#f37367")
-        label_location.grid(row=4, column= 1,padx=20,pady=20)
+        #
+        # Set up frames and Grid
+        #
 
-        entry_type=CTkEntry(gcpu_frame, width=200)
-        entry_brand=CTkEntry(gcpu_frame,width=200)
-        entry_name= CTkEntry(gcpu_frame,width=200)
-        entry_location= CTkEntry(gcpu_frame,width=200)
+        cpu_frame=CTkFrame(win, fg_color="#2E2E2E",border_color="black", border_width=2)
+        psu_frame=CTkFrame(win, fg_color="#2E2E2E",border_color="black", border_width=2)
+        psu_plot_frame=CTkFrame(win, fg_color="#2E2E2E",border_color="black", border_width=2)
+        gpu_frame=CTkFrame(win, fg_color="#2E2E2E",border_color="black", border_width=2)
+        ff_frame1=CTkFrame(win, fg_color="#2E2E2E",border_color="black", border_width=2)
+        ff_frame2=CTkFrame(win, fg_color="#2E2E2E",border_color="black", border_width=2)
+
+        cpu_frame.grid(row=1,column=0)
+        ff_frame1.grid(row=1,column=1)
+        psu_frame.grid(row=2, column=1)
+        psu_plot_frame.grid(row=2, column=2)
+
+        gpu_frame.grid(row=3, column=3)
+        ff_frame2.grid(row=4,column=2)
+
+        style = ttk.Style()
+        style.theme_use("default")
+        style.configure("Treeview",background="#2a2d2e",foreground="white",rowheight=25,fieldbackground="#343638",bordercolor="#343638",borderwidth=0)
+        style.map('Treeview', background=[('selected', '#22559b')])
+        style.configure("Treeview.Heading",background="#565b5e",foreground="white",relief="flat")
+        style.map("Treeview.Heading",background=[('active', '#3484F0')])
+
+        #
+        #GPU
+        #
+        gpu_headings= ("Brand","Name","Location", "ID")
+        gpu_title_label=CTkLabel(gpu_frame, text="GPU STOCK", font=("Berlin",20), text_color="#f37367")
+        gpu_title_label.grid(row=0, column=0, padx=20, pady=20)
+        #
+        #read data
+        #
+        df_gpu= pd.read_csv("requisites/gpu.csv")
+        gpu_list_brand= list(df_gpu['BRAND'])
+        gpu_list_name=list(df_gpu['NAME'])
+        gpu_list_loc=list(df_gpu['Location'])
+        gpu_list_id=list(df_gpu['ID'])
+        #
+        #plot tree
+        #
+        gpu_headings = ("Brand", "Name", "Location", "ID")
+        gpu_tree = ttk.Treeview(win, columns=gpu_headings, show='headings')
+        gpu_tree.grid(row=1, column=0, padx=20, pady=20)
+        for heading in gpu_headings:
+            gpu_tree.heading(heading, text=heading)
+        for brand, name, location, id in zip(gpu_list_brand, gpu_list_name,gpu_list_loc, gpu_list_id):
+            gpu_tree.insert('', 'end', values=(brand, name, location, id))
+
+        #
+        #
+        #
+
+        #
+        #CPU
+        #
         
-        entry_type.grid(row=1, column= 2,columnspan=3,padx=20,pady=20)
-        entry_brand.grid(row=2, column= 2,columnspan=3,padx=20,pady=20)
-        entry_name.grid(row=3, column= 2,columnspan=3,padx=20,pady=20)
-        entry_location.grid(row=4, column=2,columnspan=3,padx=20,pady=20)
+        df_cpu= pd.read_csv("requisites/cpu.csv")
+        win.configure(fg_color="#2E2E2E")
+        cpu_list_brand= list(df_cpu['BRAND'])
+        cpu_list_name=list(df_cpu['NAME'])
+        cpu_list_id=list(df_cpu['ID'])
+        cpu_list_loc=list(df_cpu['Location'])
+
+        cpu_title_label=CTkLabel(cpu_frame, text="CPU STOCK", font=("Berlin",20), text_color="#f37367")
+        cpu_title_label.grid(row=0, column=0, padx=20, pady=20)
+
+        cpu_headings= ("Brand","Name","Location", "ID")
+        cpu_tree=ttk.Treeview(win,columns=cpu_headings, show='headings')
+        cpu_tree.grid(row=1, column=0,pady=20)
+        for heading in cpu_headings:
+            cpu_tree.heading(heading, text=heading)
         
-        def buttonpress_CGPU():
-            check= str(entry_type.get())
-            if check == "CPU":
-                addtask= components.cpu(entry_brand.get(), entry_name.get(), entry_location.get())
-                addtask.add_gen()
-                entry_type.delete(0,END)
-                entry_brand.delete(0,END)
-                entry_location.delete(0,END)
-                entry_name.delete(0,END)
+        for brand,name,location, id in zip(cpu_list_brand, cpu_list_name,cpu_list_loc, cpu_list_id):
+            cpu_tree.insert('', 'end', values=(brand,name,location,id))
 
-            elif check == "GPU":
-                addtask= components.gpu(entry_brand.get(), entry_name.get(), entry_location.get())
-                addtask.add_gen()
-                conn=sqlite3.connect("requisites/stock.db")
-                c=conn.cursor()
-                c.execute("UPDATE gpu SET stock = stock + 1 WHERE name= ?",[addtask.name])
-                conn.commit()
-                conn.close()
-                entry_type.delete(0,END)
-                entry_brand.delete(0,END)
-                entry_location.delete(0,END)
-                entry_name.delete(0,END)
-            else:
-                messagebox.showerror("ERROR", "Invalid Type")
-                entry_type.delete(0,END)
-                entry_brand.delete(0,END)
-                entry_location.delete(0,END)
-                entry_name.delete(0,END)
-            
-
-        def printbuttonpress_CGPU():
-            BCUTILS.getprintlist(cgpu_directory,"requisites/printlist.txt")
-
-        submit_button= CTkButton(gcpu_frame, text="Submit",width=250, height=100, fg_color="#f37367", hover_color= "#72c05b", corner_radius=15,command=buttonpress_CGPU)
-        submit_button.grid(row=5, column= 2, columnspan=2,padx=20,pady=20)
-        printlist_button= CTkButton(gcpu_frame, text="Printlist",width=250, height=100, fg_color="#f37367", hover_color= "#72c05b",corner_radius=15, command=printbuttonpress_CGPU)
-        printlist_button.grid(row=6, column= 2,columnspan=2,padx=20,pady=20)
-
-        power_frame=CTkFrame(subwin)
-        power_frame.configure(fg_color="#2E2E2E")
-        power_frame.grid(row=1, column=1)
-        title_label=CTkLabel(power_frame, text= "Power Supply import", font=("Berlin", 40),text_color="#f37367")
-
-
-        label_power= CTkLabel(power_frame, text= "Power(W)", font=("Berlin", 20),text_color="#f37367")
-        entry_power=CTkEntry(power_frame, width=200, height=28, corner_radius=15,placeholder_text="e.g. 500", placeholder_text_color= "#f37367")
-        label_newstock= CTkLabel(power_frame, text= "New Units", font=("Berlin", 20),text_color="#f37367")
-        entry_newstock=CTkEntry(power_frame, width=200, height=28, corner_radius=15,placeholder_text="e.g. 1, 5", placeholder_text_color= "#f37367")
-
-        title_label.grid(row=0, column=1, columnspan=2,padx=20,pady=20)
-        label_power.grid(row=1, column=0)
-        entry_power.grid(row=1, column=1)
-
-        label_newstock.grid(row=2, column=0)
-        entry_newstock.grid(row=2, column=1)
-
-        def buttonpress_PSU():
-            conn=sqlite3.connect("stock.db")
-            c=conn.cursor()
-            c.execute("UPDATE psu SET stock= stock+? WHERE power=?",(entry_newstock.get(), entry_power.get()))
-            conn.commit()
-            conn.close()
-            entry_newstock.delete(0,END)
-            entry_power.delete(0,END)
-        def printbuttonpress_PSU():
-            BCUTILS.getprintlist(psu_directory,"requisites/psu_printlist.txt")
-        button_psu=CTkButton(power_frame, text="Submit",width=250, height=100, fg_color="#f37367", hover_color= "#72c05b", corner_radius=15,command=buttonpress_PSU)
-        button_psu.grid(row=3, column=1)
-        printlist_button= CTkButton(power_frame, text="Printlist",width=250, height=100, fg_color="#f37367", hover_color= "#72c05b",corner_radius=15, command=printbuttonpress_PSU)
-        printlist_button.grid(row=4, column= 1,columnspan=2,padx=20,pady=20)
+        #
+        #
+        #
+        def sort_column(tree, col, reverse):
+            data = [(tree.set(child, col), child) for child in tree.get_children("")]
+            data.sort(key=lambda x: int(x[0]), reverse=reverse)
+            for index, (value, child) in enumerate(data):
+                tree.move(child, "", index)
+            tree.heading(col, command=lambda: sort_column(tree, col, not reverse))
         
-        
-        subwin.mainloop()
+        #
+        #psu_
+        #
+        conn=sqlite3.connect("requisites/stock.db")
+        c = conn.cursor()
+        c.execute('SELECT * from psu')
+        datapsu = c.fetchall()
+        psu_title_label=CTkLabel(psu_frame, text="PSU STOCK", font=("Berlin",20), text_color="#f37367")
+        psu_title_label.grid(row=0, column=0, padx=20, pady=20)
+        psu_headings = ("Power", "Price", "Stock")
+        psu_tree = ttk.Treeview(psu_frame, columns=psu_headings, show='headings')
+        psu_tree.grid(row=1, column=0,padx=20,pady=20)
+
+        for heading in psu_headings:
+            psu_tree.heading(heading, text=heading, command=lambda col=heading: sort_column(psu_tree, col, False))
+        for i, (power, price, stock) in enumerate(datapsu):
+            psu_tree.insert('', 'end', values=(power, price, stock))
+
+            sum=0
+        power,price,stock= zip(*datapsu)
+
+        for i in range(len(power)):
+            value=price[i]*stock[i]
+            sum=sum+value
+        total=CTkLabel(chart_frame,text=f'Total Value: £{sum}',font=("Berlin", 20),text_color="#f37367")
+        total.grid(row=3, column=0,padx=20,pady=20)
+
+        plot_title= CTkLabel(plot_frame, text="PSU Stock History", text_color="#f37367", font=("Berlin", 30))
+        plot_title.grid(row=0,column=0,padx=20,pady=20)
+        fpath="requisites/temp_psu.png"
+        plot_image=CTkImage(light_image=Image.open(fpath),size=(500,300))
+        img_label=CTkLabel(plot_frame, image=plot_image, text='')
+        img_label.grid(row=1,column=0,padx=20,pady=20)

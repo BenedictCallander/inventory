@@ -7,7 +7,9 @@ import components as components
 import BCUTILS
 from tkinter import messagebox
 import sqlite3
-
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from PIL import Image
 '''
 colours
 background: bedrock dark gray "#2E2E2E"
@@ -22,15 +24,13 @@ class input_windows:
         subwin.title("BEDROCK: IMPORT NEW STOCK")
         subwin.geometry=("700x700")
         subwin.configure(fg_color="#2E2E2E")
-        subwin.wm_iconbitmap("requisites/icon.ico")
-
         title_text=CTkLabel(subwin, text="Import New Components", font=("Berlin",50), text_color="#f37367")
-        title_text.grid(row=0,column=0, columnspan=2)
+        title_text.grid(row=0,column=0,columnspan= 2,padx=20, pady=20)
         cgpu_directory="temp_png/"
         psu_directory="psu_png/"
-        gcpu_frame=CTkFrame(subwin,width=350, height=350,border_width=5, border_color="black")
+        gcpu_frame=CTkFrame(subwin,border_width=5, border_color="black")
         gcpu_frame.configure(fg_color="#2E2E2E")
-        gcpu_frame.grid(row=1,column=0,padx=20,pady=20)
+        gcpu_frame.grid(row=1, column=0, padx=20,pady=20)
         BCUTILS.cleardir(cgpu_directory)
         label_title=CTkLabel(gcpu_frame, text="Add Stock", font=("Berlin", 20), text_color="#f37367")
         label_title.grid(row=0,column=0, columnspan= 4,padx=20,pady=20)
@@ -91,9 +91,9 @@ class input_windows:
         printlist_button= CTkButton(gcpu_frame, text="Printlist",width=250, height=100, fg_color="#f37367", hover_color= "#72c05b",corner_radius=15, command=printbuttonpress_CGPU)
         printlist_button.grid(row=6, column= 2,columnspan=2,padx=20,pady=20)
 
-        power_frame=CTkFrame(subwin,border_width=5, border_color="black",width=350, height=350)
+        power_frame=CTkFrame(subwin,border_width=5, border_color="black")
         power_frame.configure(fg_color="#2E2E2E")
-        power_frame.grid(row=1, column=1,padx=20, pady=20)
+        power_frame.grid(row=1, column=1)
         title_label=CTkLabel(power_frame, text= "Power Supply import", font=("Berlin", 40),text_color="#f37367")
 
 
@@ -102,15 +102,15 @@ class input_windows:
         label_newstock= CTkLabel(power_frame, text= "New Units", font=("Berlin", 20),text_color="#f37367")
         entry_newstock=CTkEntry(power_frame, width=200, height=28, corner_radius=15,placeholder_text="e.g. 1, 5", placeholder_text_color= "#f37367")
 
-        title_label.grid(row=0, column=1, columnspan=2,padx=20,pady=20)
-        label_power.grid(row=1, column=0)
-        entry_power.grid(row=1, column=1)
+        title_label.grid(row=0, column=1,padx=20,pady=20)
+        label_power.grid(row=1, column=0,padx=20,pady=20)
+        entry_power.grid(row=1, column=1,padx=10,pady=20)
 
-        label_newstock.grid(row=2, column=0)
-        entry_newstock.grid(row=2, column=1)
+        label_newstock.grid(row=2, column=0,pady=20)
+        entry_newstock.grid(row=2, column=1,pady=20)
 
         def buttonpress_PSU():
-            conn=sqlite3.connect("stock.db")
+            conn=sqlite3.connect("requisites/stock.db")
             c=conn.cursor()
             c.execute("UPDATE psu SET stock= stock+? WHERE power=?",(entry_newstock.get(), entry_power.get()))
             conn.commit()
@@ -119,10 +119,10 @@ class input_windows:
             entry_power.delete(0,END)
         def printbuttonpress_PSU():
             BCUTILS.getprintlist(psu_directory,"requisites/psu_printlist.txt")
-        button_psu=CTkButton(power_frame, text="Submit",width=250, height=100, fg_color="#f37367", hover_color= "#72c05b", corner_radius=15,command=buttonpress_PSU)
-        button_psu.grid(row=3, column=1)
-        printlist_button= CTkButton(power_frame, text="Printlist",width=250, height=100, fg_color="#f37367", hover_color= "#72c05b",corner_radius=15, command=printbuttonpress_PSU)
-        printlist_button.grid(row=4, column= 1,)
+        button_psu=CTkButton(power_frame, text="Submit",width=150, height=75, fg_color="#f37367", hover_color= "#72c05b", corner_radius=30,command=buttonpress_PSU)
+        button_psu.grid(row=3, column=1,pady=20,padx=10)
+        printlist_button= CTkButton(power_frame, text="Printlist",width=150, height=75, fg_color="#f37367", hover_color= "#72c05b",corner_radius=30, command=printbuttonpress_PSU)
+        printlist_button.grid(row=4, column= 1,pady=20,padx=10)
         
         
         subwin.mainloop()
@@ -131,6 +131,7 @@ class input_windows:
 class view_windows:
     def gpu_view():
         win= CTkToplevel()
+        win.title("BEDROCK: GPU STOCK INFO")
         win.configure(fg_color="#2E2E2E")
         df_gpu= pd.read_csv("requisites/gpu.csv")
 
@@ -147,17 +148,12 @@ class view_windows:
         headings= ("Brand","Name","Location", "ID")
         title_label=CTkLabel(win, text="GPU STOCK", font=("Berlin",20), text_color="#f37367")
         title_label.grid(row=0, column=0, padx=20, pady=20)
-        def sort_column(tree, col, reverse):
-            data = [(tree.set(child, col), child) for child in tree.get_children("")]
-            data.sort(key=lambda x: int(x[0]), reverse=reverse)
-            for index, (value, child) in enumerate(data):
-                tree.move(child, "", index)
-            tree.heading(col, command=lambda: sort_column(tree, col, not reverse))
+        
         headings = ("Brand", "Name", "Location", "ID")
         tree = ttk.Treeview(win, columns=headings, show='headings')
         tree.grid(row=1, column=0, padx=20, pady=20)
         for heading in headings:
-            tree.heading(heading, text=heading, command=lambda col=heading: sort_column(tree, col, False))
+            tree.heading(heading, text=heading)
         for brand, name, location, id in zip(list_brand, list_name, list_loc, list_id):
             tree.insert('', 'end', values=(brand, name, location, id))
         
@@ -165,6 +161,7 @@ class view_windows:
     
     def cpu_view():
         win= CTkToplevel()
+        win.title("BEDROCK:CPU STOCK INFO")
         df_cpu= pd.read_csv("requisites/cpu.csv")
         win.configure(fg_color="#2E2E2E")
         list_brand= list(df_cpu['BRAND'])
@@ -181,18 +178,11 @@ class view_windows:
         title_label.grid(row=0, column=0, padx=20, pady=20)
         
         
-        def sort_column(tree, col, reverse):
-            data = [(tree.set(child, col), child) for child in tree.get_children("")]
-            data.sort(key=lambda x: int(x[0]), reverse=reverse)
-            for index, (value, child) in enumerate(data):
-                tree.move(child, "", index)
-            tree.heading(col, command=lambda: sort_column(tree, col, not reverse))
-
         headings= ("Brand","Name","Location", "ID")
         tree=ttk.Treeview(win,columns=headings, show='headings')
         tree.grid(row=1, column=0,pady=20)
         for heading in headings:
-            tree.heading(heading, text=heading, command=lambda col=heading: sort_column(tree, col, False))
+            tree.heading(heading, text=heading)
         
         for brand,name,location, id in zip(list_brand, list_name,list_loc, list_id):
             tree.insert('', 'end', values=(brand,name,location,id))
@@ -202,7 +192,12 @@ class view_windows:
 
     def psu_view():
         win=CTkToplevel()
+        win.title("BEDROCK:PSU STOCK INFO")
         win.configure(fg_color="#2E2E2E")
+        chart_frame=CTkFrame(win, fg_color="#2E2E2E",border_color="black", border_width=2)
+        chart_frame.grid(row=0,column=0,padx=20,pady=20)
+        plot_frame=CTkFrame(win, fg_color="#2E2E2E",border_color="black", border_width=2)
+        plot_frame.grid(row=0,column=1,padx=20,pady=20)
         style = ttk.Style()
         style.theme_use("default")
         style.configure("Treeview",background="#2a2d2e",foreground="white",rowheight=25,fieldbackground="#343638",bordercolor="#343638",borderwidth=0)
@@ -213,7 +208,7 @@ class view_windows:
         c = conn.cursor()
         c.execute('SELECT * from psu')
         datapsu = c.fetchall()
-        title_label=CTkLabel(win, text="PSU STOCK", font=("Berlin",20), text_color="#f37367")
+        title_label=CTkLabel(chart_frame, text="PSU STOCK", font=("Berlin",20), text_color="#f37367")
         title_label.grid(row=0, column=0, padx=20, pady=20)
         def sort_column(tree, col, reverse):
             data = [(tree.set(child, col), child) for child in tree.get_children("")]
@@ -222,8 +217,8 @@ class view_windows:
                 tree.move(child, "", index)
             tree.heading(col, command=lambda: sort_column(tree, col, not reverse))
         headings = ("Power", "Price", "Stock")
-        tree = ttk.Treeview(win, columns=headings, show='headings')
-        tree.grid(row=1, column=0)
+        tree = ttk.Treeview(chart_frame, columns=headings, show='headings')
+        tree.grid(row=1, column=0,padx=20,pady=20)
 
         for heading in headings:
             tree.heading(heading, text=heading, command=lambda col=heading: sort_column(tree, col, False))
@@ -236,13 +231,18 @@ class view_windows:
         for i in range(len(power)):
             value=price[i]*stock[i]
             sum=sum+value
-        total=CTkLabel(win,text=f'Total Value: £{sum}',font=("Berlin", 20),text_color="#f37367")
-        total.grid(row=3, column=0)
-        
-        
+        total=CTkLabel(chart_frame,text=f'Total Value: £{sum}',font=("Berlin", 20),text_color="#f37367")
+        total.grid(row=3, column=0,padx=20,pady=20)
+
+        plot_title= CTkLabel(plot_frame, text="PSU Stock History", text_color="#f37367", font=("Berlin", 30))
+        plot_title.grid(row=0,column=0,padx=20,pady=20)
+        fpath="requisites/temp_psu.png"
+        plot_image=CTkImage(light_image=Image.open(fpath),size=(500,300))
+        img_label=CTkLabel(plot_frame, image=plot_image, text='')
+        img_label.grid(row=1,column=0,padx=20,pady=20)
         
         win.mainloop()
-
+        
 class adjustment_windows:
     def pricewindow():
         win=CTkToplevel()

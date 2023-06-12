@@ -2,8 +2,7 @@ import os
 import sqlite3
 import pandas as pd 
 from datetime import datetime
-
-
+import matplotlib.pyplot as plt
 def cleardir(dir):
     for filename in os.listdir(dir):
         file_path=os.path.join(dir, filename)
@@ -53,7 +52,7 @@ class backup:
             df_backup = pd.read_sql_query(f"SELECT * FROM {table}", conn_backup)
 
             # Append the last column of the original table to the backup table with a new name (current datetime)
-            df_backup[str(datetime.now())] = df_orig[last_col_name]
+            df_backup[str(datetime.now().strftime("%Y-%m-%d %H:%M"))] = df_orig[last_col_name]
 
             # Write the updated dataframe back to the backup database
             df_backup.to_sql(table, conn_backup, if_exists='replace', index=False)
@@ -61,4 +60,25 @@ class backup:
         # Close the connections to the databases
         conn_orig.close()
         conn_backup.close()
+
+def plot_psu():
+    conn=sqlite3.connect("requisites/stock_backup.db")
+    df=pd.read_sql_query("SELECT * FROM psu",con=conn)
+    df2=df.copy()
+    df = df.transpose()
+    new_header = list(df2['power'])
+    df = df[2:]
+    df.columns = new_header
+        
+    # Plot the evolution of each stock item
+    df.plot(marker='o',figsize=(10,5))
+    plt.xlabel('Time')
+    plt.ylabel('Stock')
+    plt.title('Stock Evolution')
+    plt.xticks(rotation=45, ha="right")
+    plt.legend(loc='upper right')
+    fpath="requisites/temp_psu.png"
+    plt.savefig(fpath,bbox_inches='tight')
+    conn.commit()
+    conn.close()
 

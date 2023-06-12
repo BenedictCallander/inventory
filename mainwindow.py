@@ -5,6 +5,8 @@ import pandas as pd
 import datetime 
 from func_windows import input_windows, adjustment_windows, view_windows
 from BCUTILS import backup
+import BCUTILS
+import used_system
 '''
 colours
 background: bedrock dark gray "#2E2E2E"
@@ -29,7 +31,7 @@ def main():
     logotitle = Label(titleframe, image = titleimg,bg = "#2E2E2E")
     logotitle.grid(row=0, column= 0)
     titletext = Label(titleframe, text= "Bedrock Computers Inventory Management", font="Berlin, 20", bg="#2E2E2E", fg="#de6210")
-    titletext.grid(row=0, column= 1, columnspan= 1)
+    titletext.grid(row=0, column= 1, columnspan= 1,padx=20, pady=20)
     buttonframe= CTkFrame(win)
     buttonframe.configure(fg_color="#2E2E2E")
     buttonframe.grid(row=1, column=0, pady=50)
@@ -39,8 +41,9 @@ def main():
 
     button1 = CTkButton(buttonframe, text="Add New Components", command=input_windows.import_window,
     fg_color=button_fg,border_color="#72c05b",hover_color="#72c05b", height=100, width=200,corner_radius= 50) 
-
-    button2 = CTkButton(buttonframe, text="Import PSU",
+    #button 2-> used system import 
+    #file input? Manual input for now
+    button2 = CTkButton(buttonframe, text="Import System", command=used_system.used_window.used_win,
     fg_color=button_fg,border_color="#72c05b",hover_color="#72c05b", height=100, width=200, corner_radius= 50) 
 
     button3 = CTkButton(buttonframe, text="Adjust Stock Price",command=adjustment_windows.pricewindow,
@@ -69,8 +72,9 @@ def main():
     button6.grid(row=5, column=1,padx=15, pady=15)
     button7.grid(row=5, column=2,padx=15, pady=15)
     button8.grid(row=5, column=3,padx=15, pady=15)
-
-
+    BCUTILS.plot_psu()
+    
     win.mainloop()
+    exit()
 
 main()
